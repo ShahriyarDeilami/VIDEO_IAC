@@ -11,6 +11,7 @@ env:
 jobs:
   prod_deploy_iac:
     runs-on: ubuntu-20.04
+    environment: prod
     steps:
       - name: Check Out
         uses: actions/checkout@v2
@@ -26,16 +27,19 @@ jobs:
         with:
           terraform_version: 1.4.0
 
-      - name: Create ECR
-        id: create-registry
-        run: |
+      - name: Terraform Init
+        run: terraform init -backend-config=config/backend-config.tf -reconfigure -input=false -upgrade 
 
-          terraform init \
-          -backend-config=config/backend-config.tf \
-          -reconfigure \
-          -input=false -upgrade
-          
-          terraform apply \
-          -var-file=environments/prod.tfvars
-          -input=false \
-          -auto-approve 
+      - name: Terraform - Unlocking
+        id: unlock
+        if: ${{ env.TF_LOCK_ENABLED }}
+        run: terraform force-unlock -force ${{ secrets.TF_LOCK_ID }}
+        continue-on-error: true
+        timeout-minutes: 2
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -var-file=environments/prod.tfvars -input=false -out saved_plan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve saved_plan

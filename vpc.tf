@@ -7,6 +7,8 @@ resource "aws_vpc" "main" {
   }
 }
 
+
+
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
 
@@ -19,26 +21,26 @@ resource "aws_subnet" "public_subnet_1" {
   vpc_id     = aws_vpc.main.id
   cidr_block = var.public_subnet_1_cidr_blocks
   map_public_ip_on_launch = true
-  # availability_zone = data.aws_availability_zone.available.names[0]
+  availability_zone = var.public_subnet_1_az
 }
 
 resource "aws_subnet" "public_subnet_2" {
   vpc_id     = aws_vpc.main.id
   cidr_block = var.public_subnet_2_cidr_blocks
   map_public_ip_on_launch = true
-  # availability_zone = data.aws_availability_zone.available.names[1]
+  availability_zone = var.public_subnet_2_az
 }
 
 resource "aws_subnet" "private_subnet_1" {
   vpc_id     = aws_vpc.main.id
   cidr_block = var.private_subnet_1_cidr_blocks
-  # availability_zone = data.aws_availability_zone.available.names[0]
+  availability_zone = var.private_subnet_1_az
 }
 
 resource "aws_subnet" "private_subnet_2" {
   vpc_id     = aws_vpc.main.id
   cidr_block = var.private_subnet_2_cidr_blocks
-  # availability_zone = data.aws_availability_zone.available.names[1]
+  availability_zone = var.private_subnet_2_az
 }
 
 resource "aws_route_table" "public" {

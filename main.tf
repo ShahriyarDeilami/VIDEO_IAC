@@ -27,8 +27,3 @@ provider "aws" {
   skip_metadata_api_check     = true
 }
 
-
-data "aws_availability_zones" "available" {
-  state = "available"
-}
-

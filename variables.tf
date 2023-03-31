@@ -46,26 +46,8 @@ variable "public_subnet_1_cidr_blocks" {}
 variable "private_subnet_1_cidr_blocks" {}
 variable "public_subnet_2_cidr_blocks" {}
 variable "private_subnet_2_cidr_blocks" {}
-#variable "health_check_path" {
-#	type = string
-#	description = "health tools health check"
-#}
-#
-## Domain and Routing
-#variable "certificate_arn" {
-#  type = string
-#}
-#
-#variable "domain_name" {
-#  type = string
-#}
-#
-#variable "zone_id" {
-#  type = string
-#}
-#
-#variable "log_router_name" {
-#  type    = string
-#  default = "log-router"
-#}
-#
+
+variable "public_subnet_1_az" {}
+variable "public_subnet_2_az" {}
+variable "private_subnet_1_az" {}
+variable "private_subnet_2_az" {}
